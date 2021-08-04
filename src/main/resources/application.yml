@@ -1,0 +1,52 @@
+server:
+  port: 9003
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2
+    preferIpAddress: true
+  client:
+    serviceUrl:
+      defaultZone: http://10.60.156.63:8761/eureka/
+    registerWithEureka: true
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+  datasource:
+    url: jdbc:mysql://10.60.156.73:8306/mve_auth?useUnicode=yes&characterEncoding=UTF-8
+    username: mve
+    password: 123456
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: -1
+  redis:
+    host: 10.60.156.73
+    port: 8380
+    password: 123qwe!@#
+    database: 1
+    commandTimeout: 30000
+#  tomcat:
+#    maxThreads: 80
+ribbon:
+  ConnectTimeout: 60000
+  ReadTimeout: 60000
+mve:
+  config:
+    regisNotiEmails: phuhk@viettel.com.vn
+    #    regisNotiEmails: chuongpd2@viettel.com.vn,levt2@viettel.com.vn
+    codeTimeoutInMinute: 30
+    lengthPassword: 8
+    tokenTimeoutInMinute: 1440
+    defaultPassword: 123456@mve
+    masterPassword: <("h+\JDh&p73!Zf
+    defaultLanguage: vi
+    maxNumOfAccount: 3
+    suffixAdmin: admin
+    replaceResonAccount: MVE_ADMIN,MVE_CSKH_ACC
+    timecaching:
+      login: 60
+  path_tmp: /u01/MVE_DATA/Temp/
+  role_code_default_import_account: ROLE_DEFAULT_IMPORT_ACCOUNT
+  rowBegin: 2

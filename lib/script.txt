@@ -1,0 +1,1 @@
+mvn install:install-file -Dfile="C:/Users/blu23/Documents/My Project/final-projects/api-common/lib/jxcell.jar" -DgroupId=vt.jxcell -DartifactId=jxcell -Dversion=1.5 -Dpackaging=jar

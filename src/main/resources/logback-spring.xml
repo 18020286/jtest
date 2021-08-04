@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<include resource="org/springframework/boot/logging/logback/defaults.xml" />
+
+	<!-- CONFIG LOG -->
+	<property name="LOGGER_NAME" value="auth_service" />
+	<!-- END CONFIG LOG -->
+
+	<appender name="STDOUT"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>${CONSOLE_LOG_PATTERN}</pattern>
+			<charset>utf8</charset>
+		</encoder>
+	</appender>
+	<appender name="ELK_TEST"
+		class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+		<remoteHost>10.60.156.110</remoteHost>
+		<port>8514</port>
+		<includeCallerData>true</includeCallerData>
+		<encoder class="net.logstash.logback.encoder.LogstashEncoder" />
+		<keepAliveDuration>5 minutes</keepAliveDuration>
+	</appender>
+
+	<logger name="${LOGGER_NAME}" level="all">
+		<appender-ref ref="ELK_TEST" />
+	</logger>
+	<root level="INFO">
+ 		<appender-ref ref="STDOUT" />
+	</root>
+
+</configuration>

@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mve-auth-service-deployment
+  labels:
+    app: mve
+    module: mve-auth-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mve
+      module: mve-auth-service
+  template:
+    metadata:
+      labels:
+        app: mve
+        module: mve-auth-service
+    spec:
+      volumes:
+        - name: host-volume
+          persistentVolumeClaim:
+            claimName: mve-pvc
+      containers:
+      - name: mve-auth-service-container
+        image: 10.60.156.72/mve/mve-auth-service:__MVE_AUTH_SERVICE_VERSION__
+        env:
+            - name: TZ
+              value: Asia/Ho_Chi_Minh
+        volumeMounts:
+          - name: host-volume
+            mountPath: /DATA
+      hostAliases:
+        - ip: "10.60.109.6"
+          hostnames:
+            - "sso.viettelmaps.com.vn"
+      imagePullSecrets:
+      - name: mve.pull.secret

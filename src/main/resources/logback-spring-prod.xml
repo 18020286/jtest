@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<include resource="org/springframework/boot/logging/logback/defaults.xml" />
+
+	<!-- CONFIG LOG -->
+	<property name="LOGGER_NAME" value="auth_service" />
+	<springProperty scope="env" name="LOG_HOST_NAME" source="mve.log.hostname" defaultValue=""/>
+
+	<property name="LOG_FOLDER" value="/MVE/Logs" />
+
+	<!-- END CONFIG LOG -->
+
+	<appender name="STDOUT"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>${CONSOLE_LOG_PATTERN}</pattern>
+			<charset>utf8</charset>
+		</encoder>
+	</appender>
+	<appender name="ROLLING_FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_FOLDER}/${LOGGER_NAME}.${LOG_HOST_NAME}.log</file>
+		<encoder
+			class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>${CONSOLE_LOG_PATTERN}</Pattern>
+			<charset>utf8</charset>
+		</encoder>
+
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_FOLDER}/archived-%d{yyyy-MM-dd}/${LOGGER_NAME}.${LOG_HOST_NAME}.log.zip
+			</fileNamePattern>
+			<maxHistory>3</maxHistory>
+		</rollingPolicy>
+	</appender>
+	<appender name="ELK_RELEASE"
+		class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+		<remoteHost>10.240.192.164</remoteHost>
+		<port>8514</port>
+		<includeCallerData>true</includeCallerData>
+		<encoder class="net.logstash.logback.encoder.LogstashEncoder" />
+		<keepAliveDuration>5 minutes</keepAliveDuration>
+	</appender>
+
+	<logger name="${LOGGER_NAME}" level="all">
+		<appender-ref ref="ELK_RELEASE" />
+	</logger>
+	<root level="INFO">
+<!-- 		<appender-ref ref="STDOUT" /> -->
+		<appender-ref ref="ROLLING_FILE" />
+	</root>
+
+</configuration>
